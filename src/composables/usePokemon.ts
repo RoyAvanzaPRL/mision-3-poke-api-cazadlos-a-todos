@@ -6,16 +6,21 @@ import type { Pokemon } from '../types.ts';
 const API_URL = import.meta.env.VITE_POKE_API_URL;
 
 export function usePokemon() {
+
+  // This variable can be a Pokemon object or null. By default, it is null.
   const pokemon = ref<Pokemon | null>(null);
+
   const errorMessage = ref("");
+  const loading = ref(false);
 
   async function getPokemon(id: number) {
     try {
+      loading.value = true
       errorMessage.value = "";
 
       const response = await axios.get(`${API_URL}/pokemon/${id}`);
 
-      pokemon.value = response.data;
+      pokemon.value = response.data
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 404) {
@@ -30,6 +35,10 @@ export function usePokemon() {
       }
 
       console.error(error);
+
+      // finally always runs, it doesn't matter if the request succeeded or failed
+    } finally {
+      loading.value = false;
     }
   }
 
@@ -45,8 +54,7 @@ export function usePokemon() {
   return {
     pokemon,
     errorMessage,
-    getPokemon,
-    randomPokemonId,
-    getRandomPokemon,
+    loading,
+    getRandomPokemon
   };
 }

@@ -1,19 +1,25 @@
 <template>
 <button 
-class="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600 active:scale-95 transition"
-@click="randomClick"
+  class="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-600 active:scale-95 transition"
+  :disabled="disabled"
+  @click="randomClick"
 >
   🎲 Pokémon aleatorio
 </button>
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits<{
-  (e: "randomPoke"): void;
+const props = defineProps<{
+  disabled: boolean;
 }>();
 
-function randomClick() {
-  emit("randomPoke");
-}
+const emit = defineEmits<{
+  // void means that the function does not return a value
+  (e: "random-poke"): void;
+}>();
 
+// When randomClick runs, it emits the "random-poke" event to the parent
+function randomClick() {
+  emit("random-poke");
+}
 </script>
