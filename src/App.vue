@@ -3,31 +3,33 @@
     <h1 class="text-3xl font-bold text-blue-600">
       Pokemon API
     </h1>
-    <formTrainer />
-      <!-- : is shorthand for v-bind and it sends data from parent to child through props -->    <randomButton 
+    <FormTrainer />
+      <!-- : is shorthand for v-bind and it sends data from parent to child through props -->
+    <RandomButton 
       :disabled = "loading"
       @random-poke="getRandomPokemon"
     />
-    <p v-if="loading">
-      Cargando...
-    </p>
-
-    <cardPokemon 
-      v-else
+    <Loading 
+      v-if="loading"
+    />
+    <CardPokemon 
+      v-else-if="pokemon"
       :pokemon="pokemon" 
     />
-    <p class="text-red-500 text-sm mt-1">
-      {{ errorMessage }}
-    </p>
+    <ErrorMessage 
+    :error-message="errorMessage"
+    />
   </main>
 </template>
 
 <script setup lang="ts">
-import randomButton from './components/randomButton.vue';
-import cardPokemon from './components/cardPokemon.vue';
-import formTrainer from './components/formTrainer.vue';
+import RandomButton from './components/RandomButton.vue';
+import CardPokemon from './components/CardPokemon.vue';
+import FormTrainer from './components/FormTrainer.vue';
 
 import {usePokemon} from './composables/usePokemon.ts';
+import Loading from './components/Loading.vue';
+import ErrorMessage from './components/ErrorMessage.vue';
 
 const {
   pokemon,

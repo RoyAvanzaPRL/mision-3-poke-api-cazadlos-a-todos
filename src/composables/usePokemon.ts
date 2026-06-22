@@ -13,6 +13,24 @@ export function usePokemon() {
   const errorMessage = ref("");
   const loading = ref(false);
 
+  function handleError(error: unknown) {
+    if (!axios.isAxiosError(error)) {
+      errorMessage.value = "Ha ocurrido un error inesperado";
+      return;
+    }
+
+    switch (error.response?.status) {
+      case 404:
+        errorMessage.value = "No se ha encontrado el Pokémon";
+        break;
+      case 500:
+        errorMessage.value = "Error del servidor, inténtalo más tarde";
+        break;
+      default:
+        errorMessage.value = "Error al obtener los datos";
+    }
+  }
+
   async function getPokemon(id: number) {
     try {
       loading.value = true
@@ -22,18 +40,7 @@ export function usePokemon() {
 
       pokemon.value = response.data
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 404) {
-          errorMessage.value = "No se ha encontrado el Pokémon";
-        } else if (error.response?.status === 500) {
-          errorMessage.value = "Error del servidor, inténtalo más tarde";
-        } else {
-          errorMessage.value = "Error al obtener los datos";
-        }
-      } else {
-        errorMessage.value = "Ha ocurrido un error inesperado";
-      }
-
+      handleError(error);
       console.error(error);
 
       // finally always runs, it doesn't matter if the request succeeded or failed

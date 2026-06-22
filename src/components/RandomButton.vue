@@ -4,13 +4,14 @@
   :disabled="disabled"
   @click="randomClick"
 >
-  🎲 Pokémon aleatorio
+  {{ label ?? "🎲 Pokémon aleatorio" }}
 </button>
 </template>
 
 <script setup lang="ts">
 const props = defineProps<{
   disabled: boolean;
+  label?: string
 }>();
 
 const emit = defineEmits<{
