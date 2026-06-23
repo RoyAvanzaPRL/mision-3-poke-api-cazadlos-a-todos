@@ -7,9 +7,15 @@
     <BaseInput label="Email" type="email" />
     <BaseInput label="Pokémon asignado" />
 
-    <BaseButton>
-      Enviar
-    </BaseButton>
+    <div class="flex items-end">
+      <BaseButton
+        type="submit"
+        variant="primary"
+        size="sm"
+      >
+        Enviar
+      </BaseButton>
+    </div>
   </form>
 </template>
 

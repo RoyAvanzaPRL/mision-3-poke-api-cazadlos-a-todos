@@ -17,25 +17,25 @@
       :pokemon="pokemon" 
     />
     <ErrorMessage 
-    :error-message="errorMessage"
+      :error-message="errorMessage"
     />
   </main>
 </template>
 
 <script setup lang="ts">
-import RandomButton from './components/RandomButton.vue';
-import CardPokemon from './components/CardPokemon.vue';
-import FormTrainer from './components/FormTrainer.vue';
+  import RandomButton from './components/RandomButton.vue';
+  import CardPokemon from './components/CardPokemon.vue';
+  import FormTrainer from './components/FormTrainer.vue';
 
-import {usePokemon} from './composables/usePokemon.ts';
-import Loading from './components/Loading.vue';
-import ErrorMessage from './components/ErrorMessage.vue';
+  import {usePokemon} from './composables/usePokemon.ts';
+  import Loading from './components/Loading.vue';
+  import ErrorMessage from './components/ErrorMessage.vue';
 
-const {
-  pokemon,
-  errorMessage,
-  loading,
-  getRandomPokemon
-} = usePokemon();
+  const {
+    pokemon,
+    errorMessage,
+    loading,
+    getRandomPokemon
+  } = usePokemon();
 </script>
 
