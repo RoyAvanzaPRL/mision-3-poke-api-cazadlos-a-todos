@@ -1,6 +1,5 @@
 <template>
     <div v-if="pokemon">
-        <h2>{{ pokemon.name }}</h2>
         <PokemonImg :pokemon="pokemon"/>
         <PokemonTypes :types="pokemon.types"/>
     </div>

@@ -1,14 +1,29 @@
 <template>
-    <img
-        :src="pokemon.sprites.other['official-artwork'].front_default"
-        class="w-48 h-48"
-    />
+  <img
+    :src="imageSrc"
+    :alt="pokemon.name"
+    class="w-48 h-48"
+    @error="onImageError"
+  />
 </template>
 
 <script setup lang="ts">
-    import type { Pokemon } from "../types";
+import { computed } from "vue";
+import type { Pokemon } from "../types";
 
-    defineProps<{
-        pokemon: Pokemon;
-    }>();
+const props = defineProps<{
+  pokemon: Pokemon;
+}>();
+
+const fallbackImage = "/pokemon-placeholder.png";
+
+const imageSrc = computed(
+  () =>
+    props.pokemon.sprites.other["official-artwork"].front_default ??
+    fallbackImage
+);
+
+function onImageError(event: Event) {
+  (event.target as HTMLImageElement).src = fallbackImage;
+}
 </script>

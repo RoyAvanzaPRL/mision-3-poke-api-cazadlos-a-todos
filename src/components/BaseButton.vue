@@ -3,7 +3,7 @@
     :type="type"
     :disabled="disabled"
     :class="buttonClasses"
-  >
+    >
     <slot />
   </button>
 </template>
@@ -12,7 +12,6 @@
 import { computed } from "vue";
 
 type Variant = "primary" | "secondary";
-
 type Size = "sm" | "md" | "lg";
 
 interface Props {
@@ -30,11 +29,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-blue-600 text-white hover:bg-blue-700",
-  
-  secondary:
-    "bg-gray-200 text-gray-900 hover:bg-gray-300"
+  primary: "bg-blue-600 text-white hover:bg-blue-700",
+  secondary: "bg-gray-200 text-gray-900 hover:bg-gray-300"
 };
 
 const sizes: Record<Size, string> = {
