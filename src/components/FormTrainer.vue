@@ -56,69 +56,69 @@
 </template>
 
 <script setup lang="ts">
-  import BaseInput from './BaseInput.vue';
-  import BaseButton from './BaseButton.vue';
-  import { reactive, computed } from 'vue';
-  import type { Pokemon } from '../types.ts';
-  import { useTrainerStore } from '../stores/trainers.ts';
+  import { reactive, computed } from "vue";
+  import type { Pokemon } from "../types";
+  import { useTrainerStore } from "../stores/trainers";
+
+  import BaseInput from "./BaseInput.vue";
+  import BaseButton from "./BaseButton.vue";
 
   const props = defineProps<{
     pokemon: Pokemon | null;
     loading: boolean;
     disabled: boolean;
-    label?: string
+    label?: string;
+  }>();
+
+  const emit = defineEmits<{
+    (e: "random-poke"): void;
+    (e: "submitted"): void;
   }>();
 
   const trainerStore = useTrainerStore();
 
-  const trainerForm = reactive({
-    DNI: '',
-    name: '',
-    surnames: '',
-    email: ''
-  });
+  const initialTrainer = {
+    DNI: "",
+    name: "",
+    surnames: "",
+    email: "",
+  };
 
-  const pokemonName = computed(() => props.pokemon?.name ?? '');
+  const trainerForm = reactive({ ...initialTrainer });
 
-  const emit = defineEmits<{
-    (e: 'random-poke'): void;
-    (e: 'submitted'): void;
-  }>();
+  const pokemonName = computed(() => props.pokemon?.name ?? "");
 
-function resetForm() {
-  trainerForm.DNI = "";
-  trainerForm.name = "";
-  trainerForm.surnames = "";
-  trainerForm.email = "";
-}
-
-function submitForm() {
-  if (
-    !trainerForm.DNI ||
-    !trainerForm.name ||
-    !trainerForm.surnames ||
-    !trainerForm.email
-  ) {
-    return;
+  function resetForm() {
+    Object.assign(trainerForm, initialTrainer);
   }
 
-  const created = trainerStore.createTrainer(
-    trainerForm.DNI,
-    trainerForm.name,
-    trainerForm.surnames,
-    trainerForm.email,
-    props.pokemon
-  );
+  function submitForm() {
+    if (
+      !trainerForm.DNI ||
+      !trainerForm.name ||
+      !trainerForm.surnames ||
+      !trainerForm.email
+    ) {
+      return;
+    }
 
-  if (!created) {
-    return;
+    const created = trainerStore.createTrainer(
+      trainerForm.DNI,
+      trainerForm.name,
+      trainerForm.surnames,
+      trainerForm.email,
+      props.pokemon
+    );
+
+    if (!created) {
+      return;
+    }
+
+    resetForm();
+    emit("submitted");
   }
 
-  resetForm();
-  emit("submitted");
-}
-
-function randomClick() {
-  emit("random-poke");
-}
+  function randomClick() {
+    emit("random-poke");
+  }
 </script>

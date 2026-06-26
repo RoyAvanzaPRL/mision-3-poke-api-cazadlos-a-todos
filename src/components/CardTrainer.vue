@@ -1,22 +1,26 @@
 <template>
   <article class="p-3 bg-white rounded border flex justify-between items-start">
     <div class="space-y-1">
-      <p class="text-sm">
-        <span class="font-medium">Nombre:</span> {{ trainer.name }}
-      </p>
-      <p class="text-sm">
-        <span class="font-medium">Apellidos:</span> {{ trainer.surnames }}
-      </p>
-      <p class="text-sm">
-        <span class="font-medium">DNI:</span> {{ trainer.DNI }}
-      </p>
-      <p class="text-sm">
-        <span class="font-medium">Email:</span> {{ trainer.email }}
-      </p>
-      <p class="text-sm">
-        <span class="font-medium">Pokémon assignado:</span>
-        {{ trainer.pokemonAssigned?.name ?? 'Sin Pokémon' }}
-      </p>
+      <InfoField 
+        label="Nombre"
+        :value="trainer.name"  
+      />
+      <InfoField 
+        label="Apellidos"
+        :value="trainer.surnames"  
+      />
+      <InfoField 
+        label="DNI"
+        :value="trainer.DNI"  
+      />
+      <InfoField 
+        label="Email"
+        :value="trainer.email"  
+      />
+      <InfoField 
+        label="Pokemon Asignado"
+        :value="trainer.pokemonAssigned?.name ?? 'Sin Pokémon'"
+      />
     </div>
 
     <div class="flex flex-col items-end gap-2">
@@ -45,6 +49,7 @@
 <script setup lang="ts">
 import type { Trainer } from '../types';
 import BaseButton from './BaseButton.vue';
+import InfoField from './InfoField.vue';
 
 defineProps<{
   trainer: Trainer;

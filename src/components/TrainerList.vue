@@ -18,7 +18,7 @@
     <p v-else class="text-sm text-gray-600">
       No hay entrenadores todavía.
     </p>
-
+    <ErrorMessage :error-message="errorMessage" />
     <BaseModal
       :open="showModal"
       title="Eliminar entrenador"
@@ -31,38 +31,42 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
-import { useTrainerStore } from '../stores/trainers';
-import CardTrainer from './CardTrainer.vue';
-import { ref } from 'vue';
-import BaseModal from './BaseModal.vue';
+  import { ref } from "vue";
+  import { storeToRefs } from "pinia";
 
-const store = useTrainerStore();
-const { trainers } = storeToRefs(store);
+  import { useTrainerStore } from "../stores/trainers";
 
-const emit = defineEmits<{
-  (e: 'assign-request', DNI: string): void;
-}>();
+  import CardTrainer from "./CardTrainer.vue";
+  import BaseModal from "./BaseModal.vue";
+  import ErrorMessage from "./ErrorMessage.vue";
 
-const showModal = ref(false);
-const trainerToDelete = ref<string | null>(null);
+  const store = useTrainerStore();
 
-function requestDelete(dni: string) {
-  trainerToDelete.value = dni;
-  showModal.value = true;
-}
+  const { trainers, errorMessage } = storeToRefs(store);
 
-function confirmDelete() {
-  if (!trainerToDelete.value) return;
+  const emit = defineEmits<{
+    (e: "assign-request", DNI: string): void;
+  }>();
 
-  store.deleteTrainer(trainerToDelete.value);
+  const showModal = ref(false);
+  const trainerToDelete = ref<string | null>(null);
 
-  trainerToDelete.value = null;
-  showModal.value = false;
-}
+  function requestDelete(dni: string) {
+    trainerToDelete.value = dni;
+    showModal.value = true;
+  }
 
-function closeModal() {
-  trainerToDelete.value = null;
-  showModal.value = false;
-}
+  function confirmDelete() {
+    if (!trainerToDelete.value) return;
+
+    store.deleteTrainer(trainerToDelete.value);
+
+    trainerToDelete.value = null;
+    showModal.value = false;
+  }
+
+  function closeModal() {
+    trainerToDelete.value = null;
+    showModal.value = false;
+  }
 </script>
