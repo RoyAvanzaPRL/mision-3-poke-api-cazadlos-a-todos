@@ -194,3 +194,11 @@ export interface Type {
   slot: number;
   type: Species;
 }
+
+export interface Trainer {
+  DNI: string;
+  name: string;
+  surnames: string;
+  email: string;
+  pokemonAssigned: Pokemon | null;
+}
